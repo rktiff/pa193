@@ -46,7 +46,7 @@ unsigned int ShopItem::computeEanChecksum(const unsigned int digits[]) const{
 unsigned int ShopItem::computeIsbn10Checksum(const unsigned int digits[]) const{
     int weighted=0;
 
-    for(int i=0; i<10; i++){//vazena suma
+    for(int i=0; i<9; i++){//vazena suma
         weighted+= (10-i)*digits[i];
     }
 
@@ -67,7 +67,7 @@ void ShopItem::validateId(const std::string & str) const{
         throw logic_error("item id too long");
 
     for(unsigned int i=0;i<str.length();i++){//validne znaky [a-z][A-Z][0-9] - _
-        if( !!isalnum(str.at(i)) && str.at(i)!=u'\\' && str.at(i)!=u'_')
+        if( !isalnum(str.at(i)) && str.at(i)!=u'-' && str.at(i)!=u'_')
             throw logic_error("invalid character in id");
     }
 }
