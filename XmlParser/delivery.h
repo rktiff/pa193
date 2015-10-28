@@ -17,6 +17,8 @@ public:
 
     Delivery(const std::string & id, const double price);
 
+    Delivery(const Delivery & other);
+
     ~Delivery();
 };
 

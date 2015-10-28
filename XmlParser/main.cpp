@@ -20,7 +20,7 @@ int main()
     //item.setHeuCpc(-1);
     //item.setHeuCpc(100.01);
 
-    string product = "vyrobca nazov produktu a cosi este";
+    string product = "vyrobca nazov produktu a cosi ešte";
     string prodName = "nazov produktu";
     string manufacturer = "vyrobca";
     string id = "superId123_---AZaz";
@@ -29,8 +29,12 @@ int main()
     item.setProduct(product);
     item.setProdName(prodName);
     item.setManufacturer(manufacturer);
+    //item.setCatText(product);
     //string prodName2 = "nazov produktu2";
     //item.setProdName(prodName2);
+
+    string type = "super typ produktu";
+    item.setItemType(type);
 
     unsigned int eanArray[13] = {3,3,0,7,2,1,1,6,6,7,5,0,1};
     item.setEan(eanArray);

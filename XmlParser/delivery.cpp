@@ -53,6 +53,9 @@ Delivery::Delivery(const std::string & id, const double price):Delivery(id, pric
     m_price_cod=0;//dobierka neni mozna
 }
 
+Delivery::Delivery(const Delivery & other):m_id(new string (*other.m_id)), m_price(other.m_price), m_price_cod(other.m_price_cod){
+}
+
 Delivery::~Delivery(){
     delete m_id;
 }

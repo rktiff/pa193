@@ -10,7 +10,7 @@
 
 class ShopItem{
     std::string* m_id; //musi byt unikatne, max 36 znakov [a-z][A-Z][0-9] - _
-    std::string* m_prodName;//musi byt v product, max 255 znakov, kopa povinnych veci(nedokoncene)
+    std::string* m_prodName;//musi byt v product, max 255 znakov
     std::string* m_product; // max 255 znakov
     std::string* m_desc;
 
@@ -19,7 +19,7 @@ class ShopItem{
     double m_price;//2 desatinne miesta
     std::string* m_itemType;
     std::string* m_manufact;//musi byt v product name
-    std::string* m_catText; //psycho (nedokoncene)
+    std::string* m_catText;
     unsigned int m_ean[13] = {0}; //povinny pre kinhy
     unsigned int m_isbn[10] = {0};//isbn10, isbn13
     double m_heuCpc; // max 100, 2 desatinne miesta
@@ -38,6 +38,8 @@ public:
 
     ShopItem();
 
+    //ShopItem(const ShopItem & other);
+
     ~ShopItem();
 
     void setId(const std::string & id);
@@ -50,7 +52,11 @@ public:
 
     void setPrice(const double price);
 
+    void setItemType(const std::string& type);
+
     void setManufacturer(const std::string& manuf);
+
+    void setCatText(const std::string& category);
 
     void setEan(const unsigned int ean[]);
 

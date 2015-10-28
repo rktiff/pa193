@@ -11,6 +11,7 @@ ShopItem::ShopItem()
 {
 }
 
+
 ShopItem::~ShopItem(){
     delete m_id;
     delete m_prodName;
@@ -55,11 +56,11 @@ unsigned int ShopItem::computeIsbn10Checksum(const unsigned int digits[]) const{
 
 
 void ShopItem::validateProduct(const string &str) const{
-    if(m_product==nullptr)
-        throw logic_error("product must be set befor product name");
+    if(str.length()>255)
+        throw logic_error("string too long");
 
     if(m_product->find(str, 0)==string::npos)//retazec musi byt obsiahnuty v "m_product"
-        throw logic_error("product does not contain product name");
+        throw logic_error("string does not contain product name");
 }
 
 void ShopItem::validateId(const std::string & str) const{
@@ -79,10 +80,6 @@ void ShopItem::setId(const string& id){
 }
 
 void ShopItem::setProdName(const string & name){
-
-    if(name.length()>255)
-        throw logic_error("product name too long");
-
     validateProduct(name);
 
     m_prodName=new string(name);
@@ -96,7 +93,10 @@ void ShopItem::setProduct(const string & product){
 }
 
 void ShopItem::setDesc(const string & desc){
-    m_desc = new string(desc);//podla dokumentacie nebolo ziadne obmedzenie
+    if(desc.length()>2000)//podla dokumentacie nebolo ziadne obmedzenie, tak som pridal aspon na pocet znakov
+        throw logic_error("product name too long");
+
+    m_desc = new string(desc);
 }
 
 void ShopItem::setPrice(const double price){
@@ -106,14 +106,30 @@ void ShopItem::setPrice(const double price){
     m_price = price;
 }
 
+void ShopItem::setItemType(const std::string& type){
+    if(type.length()>2000)
+        throw logic_error("item type too long");
+
+    m_itemType = new string(type);
+
+}
 
 void ShopItem::setManufacturer(const string& manuf){
-    if(manuf.length()>255)
-        throw logic_error("manufacturer too long");
-
     validateProduct(manuf);
 
     m_manufact = new string(manuf);
+}
+
+void ShopItem::setCatText(const std::string& category){
+    if(category.length()>2000)
+        throw logic_error("category too long");
+
+    for(unsigned int i=0;i<category.length();i++){//validne znaky [a-z][A-Z][0-9] - _
+        if( !isalnum(category[i]) && category[i]!=u'-' && category[i]!=u'_')
+            throw logic_error("invalid character in category");
+    }
+
+    m_catText = new string(category);
 }
 
 void ShopItem::setEan(const unsigned int ean[]){
