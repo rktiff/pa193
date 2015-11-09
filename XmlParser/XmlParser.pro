@@ -1,4 +1,6 @@
 TEMPLATE = app
+TARGET = XmlParser
+
 CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt

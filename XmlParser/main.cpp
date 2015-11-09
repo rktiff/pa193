@@ -36,11 +36,11 @@ int main()
     string type = "super typ produktu";
     item.setItemType(type);
 
-    unsigned int eanArray[13] = {3,3,0,7,2,1,1,6,6,7,5,0,1};
-    item.setEan(eanArray);
+    item.setEan(3307211667501);
+//    item.setEan(4006381333931);
 
-    unsigned int isbnArray[10] = {8,0,2,0,4,0,1,0,5,9};
-    item.setIsbn10(isbnArray);
+//    item.setIsbn10(8020401059);
+    item.setIsbn10(306406152);
 
     item.addDelivery(&del1);
     item.addDelivery(&del3);

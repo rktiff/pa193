@@ -20,8 +20,8 @@ class ShopItem{
     std::string* m_itemType;
     std::string* m_manufact;//musi byt v product name
     std::string* m_catText;
-    unsigned int m_ean[13] = {0}; //povinny pre kinhy
-    unsigned int m_isbn[10] = {0};//isbn10, isbn13
+    unsigned long long m_ean = 0; //povinny pre kinhy
+    unsigned long long m_isbn = 0;//isbn10, isbn13
     double m_heuCpc; // max 100, 2 desatinne miesta
 
     std::list<Delivery*> m_delivery;
@@ -32,8 +32,8 @@ class ShopItem{
 
     void validateId(const std::string & str) const;
     void validateProduct(const std::string& str) const;
-    unsigned int computeEanChecksum(const unsigned int digits[]) const;
-    unsigned int computeIsbn10Checksum(const unsigned int digits[]) const;
+    unsigned int computeEanChecksum(const unsigned long long digits) const;
+    unsigned int computeIsbn10Checksum(const unsigned long long digits) const;
 public:
 
     ShopItem();
@@ -58,9 +58,9 @@ public:
 
     void setCatText(const std::string& category);
 
-    void setEan(const unsigned int ean[]);
+    void setEan(const unsigned long long ean);
 
-    void setIsbn10(const unsigned int isbn[]);
+    void setIsbn10(const unsigned long long isbn);
 
     void setHeuCpc(const double val);
 

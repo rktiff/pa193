@@ -31,27 +31,29 @@ ShopItem::~ShopItem(){
     delete  m_groupId;
 }
 
-unsigned int ShopItem::computeEanChecksum(const unsigned int digits[]) const{
+unsigned int ShopItem::computeEanChecksum(const unsigned long long digits) const{
     int weighted=0;
 
-    for(int i=0; i<12; i+=2){//vazena suma
-        weighted+= digits[i];
+    for(unsigned long long tmpDigits = digits / 100; tmpDigits > 0; tmpDigits /= 100) { //vazena suma
+        weighted += tmpDigits % 10;
     }
 
-    for(int i=1;i<12;i+=2)//vazena suma
-        weighted+= 3*digits[i];
+
+    for(unsigned long long tmpDigits = digits / 10; tmpDigits > 0; tmpDigits /= 100) {//vazena suma
+        weighted += 3 * (tmpDigits % 10);
+    }
 
     return (10 - (weighted % 10))%10 ;
 }
 
-unsigned int ShopItem::computeIsbn10Checksum(const unsigned int digits[]) const{
-    int weighted=0;
+unsigned int ShopItem::computeIsbn10Checksum(const unsigned long long digits) const {
+    int weighted = 0, i = 0;
 
-    for(int i=0; i<9; i++){//vazena suma
-        weighted+= (10-i)*digits[i];
+    for(unsigned long long tmpDigits = digits; tmpDigits > 0; tmpDigits /= 10) { //vazena suma
+        weighted += ++i * (tmpDigits % 10);
     }
 
-    return (11 - (weighted % 11))%11 ;
+    return weighted % 11;
 }
 
 
@@ -132,34 +134,30 @@ void ShopItem::setCatText(const std::string& category){
     m_catText = new string(category);
 }
 
-void ShopItem::setEan(const unsigned int ean[]){
-    for(unsigned int i=0; i<13;i++){
-        if(ean[i]>9)
-            throw logic_error("ean contain number not from interval <0, 9>");
+void ShopItem::setEan(const unsigned long long ean) {
+    if (ean > 9999999999999) {
+        throw logic_error("ean contain number not from interval <0, 9>");
     }
 
     unsigned int checksum = computeEanChecksum(ean);
-    if(ean[12]!=checksum)
+    if(ean % 10 != checksum)
         throw logic_error("invalid ean checksum");
 
-    for(int i=0;i<13;i++)
-        m_ean[i]=ean[i];
+    m_ean = ean;
 }
 
 
-void ShopItem::setIsbn10(const unsigned int isbn[]){
-    for(unsigned int i=0; i<10;i++){
-        if(isbn[i]>9)
-            throw logic_error("isbn contain number not from interval <0, 9>");
+void ShopItem::setIsbn10(const unsigned long long isbn){
+    if (isbn > 9999999999) {
+            throw logic_error("Invalid ISBN size");
     }
 
     unsigned int checksum = computeIsbn10Checksum(isbn);
-    if(isbn[9]!=checksum)
-        throw logic_error("invalid isbn checksum");
+    if(checksum != 0) {
+        throw logic_error("invalid ISBN checksum");
+    }
 
-    for(int i=0;i<10;i++)
-        m_isbn[i]=isbn[i];
-
+    m_isbn = isbn;
 }
 
 void ShopItem::setHeuCpc(const double val){
