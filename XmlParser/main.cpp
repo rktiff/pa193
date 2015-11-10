@@ -1,50 +1,75 @@
 #include <iostream>
+#include <fstream>
+#include <string>
 
+#include "lexer.h"
 #include "shopitem.h"
 
 using namespace std;
 
-int main()
+class MyParsingHandler : public ParsingHandler
 {
+public:
+    void elementStart(std::string* elementName)
+    {
+        std::cout << "elementStart " << elementName << std::endl;
+    }
 
-    Delivery del1(u8"DSV", 50, 60);
-    //Delivery del2(u8"DSVx", 50, 60);
-    Delivery del3(u8"DSV", 50);
+    void elementTextContent(std::string* elementName, std::string* content)
+    {
+        std::cout << "elementTextContent " << elementName << " = " << content << std::endl;
+    }
 
-    ShopItem item;
-    item.setPrice(60.0);
-    item.setPrice(0);
-    //item.setPrice(-0.01);
-    item.setHeuCpc(0);
-    item.setHeuCpc(100);
-    //item.setHeuCpc(-1);
-    //item.setHeuCpc(100.01);
+    void elementEnd(std::string* elementName)
+    {
+        std::cout << "elementEnd " << elementName << std::endl;
+    }
 
-    string product = "vyrobca nazov produktu a cosi ešte";
-    string prodName = "nazov produktu";
-    string manufacturer = "vyrobca";
-    string id = "superId123_---AZaz";
-    item.setId(id);
-    item.setDesc("Toto je popis, srany kopec");
-    item.setProduct(product);
-    item.setProdName(prodName);
-    item.setManufacturer(manufacturer);
-    //item.setCatText(product);
-    //string prodName2 = "nazov produktu2";
-    //item.setProdName(prodName2);
+    void attribute(std::string* attributeName, std::string* attributeValue)
+    {
+        std::cout << "attribute " << attributeName << " = " << attributeValue << std::endl;
+    }
+};
 
-    string type = "super typ produktu";
-    item.setItemType(type);
+int main(int argc, char* argv[])
+{
+    // Check the number of parameters
+    if (argc != 2) {
+        std::cerr << "Usage: " << argv[0] << " FILE_NAME" << std::endl;
+        return 1;
+    }
 
-    item.setEan(3307211667501);
-//    item.setEan(4006381333931);
+    int returnCode = 0;
 
-//    item.setIsbn10(8020401059);
-    item.setIsbn10(306406152);
+    // Open and parse file
+//    MyParsingHandler handler;
+    Parser parser;
+    Lexer lexer(parser);
 
-    item.addDelivery(&del1);
-    item.addDelivery(&del3);
+    std::string line;
+    std::ifstream xmlfile(argv[1]);
+    if (xmlfile.is_open())
+    {
+        try
+        {
+            while (getline(xmlfile, line))
+            {
+                lexer.tokanize(line);
+            }
+        }
+        catch (const LexerError& e)
+        {
+            std::cerr << e.what() << std::endl;
+            returnCode = 2;
+        }
+        xmlfile.close();
+    }
+    else
+    {
+        std::cerr << "Unable to open file " << argv[1] << std::endl;
+        returnCode = 3;
+    }
 
-    return 0;
+    return returnCode;
 }
 

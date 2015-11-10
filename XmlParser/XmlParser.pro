@@ -10,10 +10,14 @@ QMAKE_CXXFLAGS += -std=c++11 -Wall -Wextra -pedantic
 SOURCES += main.cpp \
     delivery.cpp \
     urls.cpp \
-    shopitem.cpp
+    shopitem.cpp \
+    lexer.cpp \
+    parser.cpp
 
 HEADERS += \
     delivery.h \
     urls.h \
-    shopitem.h
+    shopitem.h \
+    lexer.h \
+    parser.h
 
