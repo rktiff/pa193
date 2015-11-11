@@ -31,7 +31,7 @@ TokenTypes Token::getType()
 //  Lexer class definition  //
 // ------------------------ //
 
-Lexer::Lexer(Parser* parser) : m_parser(parser) {}
+Lexer::Lexer(Parser* parser) : m_parser(parser), m_position(0), m_latest_token_pos(0), m_state(LexerStates::Init) {}
 
 Lexer::~Lexer() {}
 
@@ -48,7 +48,7 @@ void Lexer::tokanize(const std::string& line)
 
 void Lexer::sendToken(TokenTypes type, bool case_sensitive = true, size_t start_offset = 0, size_t length_offset = 0)
 {
-    std::string* content = new  std::string(m_current_line.substr(m_latest_token_pos + start_offset, m_position - m_latest_token_pos + length_offset));
+    std::string* content = new std::string(m_current_line.substr(m_latest_token_pos + start_offset, m_position - m_latest_token_pos + length_offset));
     if (case_sensitive)
     {
         std::transform(content->begin(), content->end(), content->begin(), ::toupper);

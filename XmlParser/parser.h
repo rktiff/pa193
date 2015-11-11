@@ -60,7 +60,7 @@ public:
 class ParserError : public std::domain_error
 {
 public:
-    using std::domain_error::domain_error;
+     ParserError(std::string const& msg) : std::domain_error(msg) { }
 };
 
 #endif // PARSER_H

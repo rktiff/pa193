@@ -10,7 +10,7 @@ Parser::~Parser()
 {
     while(!m_stack.empty())
     {
-        free(m_stack.top());
+        delete m_stack.top();
         m_stack.pop();
     }
 }

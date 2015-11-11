@@ -5,9 +5,9 @@
 using namespace std;
 
 ShopItem::ShopItem()
-    :m_id( nullptr), m_prodName( nullptr),m_product( nullptr),m_desc( nullptr), m_urls(new Urls()),
-     m_price(0), m_itemType( nullptr),m_manufact( nullptr),
-     m_catText( nullptr), m_heuCpc(0), m_groupId( nullptr), m_dues(0)
+    :m_id(NULL), m_prodName(NULL),m_product(NULL),m_desc(NULL), m_urls(new Urls()),
+     m_price(0), m_itemType(NULL),m_manufact(NULL),
+     m_catText(NULL), m_ean(0), m_isbn(0), m_heuCpc(0), m_groupId(NULL), m_dues(0)
 {
 }
 
@@ -25,7 +25,7 @@ ShopItem::~ShopItem(){
     delete m_catText;
 
     for(list<Delivery*>::const_iterator iterator = m_delivery.begin(); iterator!=m_delivery.end(); ++iterator){
-        free(*iterator);
+        delete *iterator;
     }
 
     delete  m_groupId;

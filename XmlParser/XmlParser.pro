@@ -5,7 +5,7 @@ CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt
 
-QMAKE_CXXFLAGS += -std=c++11 -Wall -Wextra -pedantic
+QMAKE_CXXFLAGS += -std=c++0x -Wall -Wextra -pedantic
 
 SOURCES += main.cpp \
     delivery.cpp \

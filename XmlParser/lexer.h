@@ -12,10 +12,6 @@ enum class LexerStates {
     // utf-8 special chars reading
     ReadingBOM,
     ReadingBOM_1,
-    Reading2B,
-    Reading3B,
-    Reading3B_1,
-    Reading4B,
 
     // reading <? ... ?>
     WaitingForProlog,
@@ -37,11 +33,7 @@ enum class LexerStates {
     ReadingComment,
     ReadingComment_1,
     ReadingElementEnd,
-    ReadingElementEnd_1,
-
-    // XML Attribute reading
-    ReadingAttributeName,
-    ReadingAttributeValue,
+    ReadingElementEnd_1
 };
 
 class Lexer
@@ -53,16 +45,13 @@ class Lexer
     std::string m_current_line;
 
     // current position in line
-    std::size_t m_position = 0;
+    std::size_t m_position;
 
     // latest token position
-    std::size_t m_latest_token_pos = m_position;
+    std::size_t m_latest_token_pos;
 
     // lexer state
-    LexerStates m_state = LexerStates::Init;
-
-    // state before attributes processing
-    LexerStates m_before_attr_state = LexerStates::Init;
+    LexerStates m_state;
 
     // common method for reading char
     void readChar(unsigned char ch);
@@ -96,7 +85,7 @@ public:
 class LexerError : public std::domain_error
 {
 public:
-    using std::domain_error::domain_error;
+    LexerError(std::string const& msg) : std::domain_error(msg) { }
 };
 
 #endif // LEXER_H

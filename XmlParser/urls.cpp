@@ -5,7 +5,7 @@
 
 using namespace std;
 
-Urls::Urls():m_url(nullptr), m_imgurl(nullptr), m_vidurl(nullptr)
+Urls::Urls():m_url(NULL), m_imgurl(NULL), m_vidurl(NULL)
 {
 }
 

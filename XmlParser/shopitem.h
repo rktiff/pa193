@@ -23,8 +23,8 @@ class ShopItem{
 
     // TODO: Params list is missing
 
-    unsigned long long m_ean = 0; //povinny pre kinhy
-    unsigned long long m_isbn = 0;//isbn10, isbn13
+    unsigned long long m_ean; //povinny pre kinhy
+    unsigned long long m_isbn;//isbn10, isbn13
     double m_heuCpc; // max 100, 2 desatinne miesta
 
     // TODO: std::string* m_delivery_date;

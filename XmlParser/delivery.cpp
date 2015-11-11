@@ -1,9 +1,10 @@
-#include <iostream>
 #include "delivery.h"
 
+#include <iostream>
+#include <cctype>
+#include <cmath>
 
 using namespace std;
-
 
 const string Delivery::ids[id_count] = {
     u8"CESKA_POSTA",
@@ -30,32 +31,30 @@ const string Delivery::ids[id_count] = {
     u8"VLASTNI_PREPRAVA",
 };
 
-Delivery::Delivery(const string & id, const double price, const double price_cod)
-    :m_id(new string(id)), m_price(price), m_price_cod(price_cod)
+Delivery::Delivery()
+    :m_id(NULL), m_price(0), m_price_cod(0)
 {
-    if(id.length()==0 || price>price_cod || price<0)//cena s dobierkou minimalne ako normalna cena
-        throw logic_error("delivery: invalid constructor parameter");
-
-    bool id_ok = false;
-    for(unsigned int i=0; i<id_count; i++){
-        if((*m_id)==ids[i]){//id musi byt jedno z validnych id
-            id_ok=true;
-            break;
-        }
-    }
-
-    if(!id_ok)
-        throw logic_error("delivery: invalid delivery id");
 }
 
-Delivery::Delivery(const std::string & id, const double price):Delivery(id, price, price)
-{
-    m_price_cod=0;//dobierka neni mozna
-}
-
-Delivery::Delivery(const Delivery & other):m_id(new string (*other.m_id)), m_price(other.m_price), m_price_cod(other.m_price_cod){
-}
-
-Delivery::~Delivery(){
+Delivery::~Delivery() {
     delete m_id;
 }
+
+void Delivery::setId(const string& id){
+    // validateId(id);
+
+    m_id=new string(id);
+}
+
+void Delivery::setPrice(double price){
+    // validatePrice(price);
+
+    m_price=price;
+}
+
+void Delivery::setPriceCod(double price_cod){
+    // validatePrice(price);
+
+    m_price_cod=price_cod;
+}
+

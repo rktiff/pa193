@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <cctype>
 
 #include "lexer.h"
 #include "shopitem.h"
@@ -10,10 +11,12 @@ using namespace std;
 class ParsedDocument : public ParsingHandler
 {
     std::list<ShopItem*> m_items;
-    ShopItem* m_current_item = NULL;
-    Delivery* m_current_delivery = NULL;
+    ShopItem* m_current_item;
+    Delivery* m_current_delivery;
     // TODO: Param* m_current_param = NULL;
 public:
+    ParsedDocument() : m_current_item(NULL), m_current_delivery(NULL) {}
+
     std::list<ShopItem*> getItems()
     {
         return m_items;
