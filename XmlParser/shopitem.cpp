@@ -216,3 +216,35 @@ void ShopItem::setVidUrl(const string& url){
 string* ShopItem::getId() const{
     return m_id;
 }
+
+std::string* ShopItem::getProdName() const{
+    return m_prodName;
+}
+
+std::string* ShopItem::getProduct() const{
+    return m_product;
+}
+
+std::string* ShopItem::getDesc() const{
+    return m_desc;
+}
+
+Urls* ShopItem::getUrls() const{
+    return m_urls;
+}
+
+double ShopItem::getPrice() const{
+    return m_price;
+}
+
+std::string* ShopItem::getItemType() const{
+    return m_itemType;
+}
+
+std::string* ShopItem::getManufact() const{
+    return m_manufact;
+}
+
+std::string* ShopItem::getCatText() const{
+    return m_catText;
+}

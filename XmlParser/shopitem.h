@@ -86,6 +86,22 @@ public:
     void setVidUrl(const std::string& url);
 
     std::string* getId() const;
+
+    std::string* getProdName() const;
+
+    std::string* getProduct() const;
+
+    std::string* getDesc() const;
+
+    Urls* getUrls() const;
+
+    double getPrice() const;
+
+    std::string* getItemType() const;
+
+    std::string* getManufact() const;
+
+    std::string* getCatText() const;
 };
 
 
