@@ -264,3 +264,7 @@ std::string* ShopItem::getManufact() const{
 std::string* ShopItem::getCatText() const{
     return m_catText;
 }
+
+unsigned long long ShopItem::getEAN() const{
+    return m_ean;
+}

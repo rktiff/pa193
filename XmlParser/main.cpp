@@ -64,6 +64,28 @@ int main(int argc, char* argv[])
     if (returnCode == 0)
     {
         // TODO: do something with document.getItems();
+        std::list<ShopItem*> items = document.getItems();
+
+        double total_sum = 0;
+
+        std::cout << "=== Parsed data ===" << std::endl;
+
+        for (auto item: items)
+        {
+            total_sum += item->getPrice();
+
+            std::cout << *(item->getProdName())
+                      << " (ID:" << *(item->getId()) << ")" << std::endl;
+
+            std::cout << "  Description: " << *(item->getDesc()) << std::endl;
+            std::cout << "  EAN: " << item->getEAN() << std::endl;
+            std::cout << std::endl;
+        }
+
+        std::cout << "=== Summary ===" << std::endl;
+        std::cout << "Parsed: " << items.size() << " items" << std::endl;
+        std::cout << "Total sum: " << total_sum << std::endl;
+
     }
 
     return returnCode;
