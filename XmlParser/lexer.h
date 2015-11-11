@@ -53,6 +53,9 @@ class Lexer
     // lexer state
     LexerStates m_state;
 
+    // previous content
+    std::string* m_previous_content;
+
     // common method for reading char
     void readChar(unsigned char ch);
 
@@ -69,7 +72,7 @@ class Lexer
     void readElementEnd(unsigned char ch);
 
     // sends token to the parser
-    void sendToken(TokenTypes type, bool case_sensitive, size_t start_offset, size_t length_offset);
+    void sendToken(TokenTypes type, long start_offset, long length_offset);
 public:
     Lexer(Parser* parser);
 

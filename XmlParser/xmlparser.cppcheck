@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="1">
+    <includedir>
+        <dir name="/"/>
+    </includedir>
+    <defines>
+        <define name="XmlParser"/>
+    </defines>
+    <paths>
+        <dir name="C:/Users/suska/private/Skola/PA193/PROJ1/ws/XmlParser"/>
+    </paths>
+    <exclude>
+        <path name="/debug/"/>
+        <path name="/release/"/>
+    </exclude>
+</project>

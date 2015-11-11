@@ -1,8 +1,6 @@
 #include "lexer.h"
 
 #include <iostream>
-#include <algorithm>
-
 
 using namespace std;
 
@@ -10,11 +8,14 @@ using namespace std;
 //  Token class definition  //
 // ------------------------ //
 
-Token::Token(std::string* content, TokenTypes type) : m_content(content), m_type(type) {}
+Token::Token(const std::string& content, TokenTypes type)
+    : m_content(new std::string(content)), m_type(type)
+{
+}
 
 Token::~Token()
 {
-    free(m_content);
+    delete m_content;
 }
 
 std::string* Token::getContent()
@@ -31,9 +32,17 @@ TokenTypes Token::getType()
 //  Lexer class definition  //
 // ------------------------ //
 
-Lexer::Lexer(Parser* parser) : m_parser(parser), m_position(0), m_latest_token_pos(0), m_state(LexerStates::Init) {}
+Lexer::Lexer(Parser* parser)
+    : m_parser(parser), m_position(0), m_latest_token_pos(0), m_state(LexerStates::Init),
+      m_previous_content(new string())
+{
 
-Lexer::~Lexer() {}
+}
+
+Lexer::~Lexer()
+{
+    delete m_previous_content;
+}
 
 void Lexer::tokanize(const std::string& line)
 {
@@ -43,19 +52,26 @@ void Lexer::tokanize(const std::string& line)
     {
         readChar(line.at(m_position));
     }
-    // TODO: process multiline content
+    // store multi line content for later use
+    if (m_state == LexerStates::ReadingContent_1)
+    {
+        m_previous_content->append(m_current_line.substr(m_latest_token_pos, m_position - m_latest_token_pos));
+        m_previous_content->append("\n");
+    }
 }
 
-void Lexer::sendToken(TokenTypes type, bool case_sensitive = true, size_t start_offset = 0, size_t length_offset = 0)
+void Lexer::sendToken(TokenTypes type, long start_offset = 0, long length_offset = 0)
 {
-    std::string* content = new std::string(m_current_line.substr(m_latest_token_pos + start_offset, m_position - m_latest_token_pos + length_offset));
-    if (case_sensitive)
-    {
-        std::transform(content->begin(), content->end(), content->begin(), ::toupper);
-    }
+    size_t from = m_latest_token_pos + start_offset;
+    size_t len = m_position - m_latest_token_pos + length_offset;
 
-    Token *token = new Token(content, type);
-    m_parser->nextToken(token);
+    if (len > 0)
+    {
+        Token *token = new Token(*m_previous_content + m_current_line.substr(from, len), type);
+        m_previous_content->clear();
+
+        m_parser->nextToken(token);
+    }
 }
 
 void Lexer::readChar(unsigned char ch)
@@ -237,7 +253,7 @@ void Lexer::readElement(unsigned char ch)
         if (ch == '/')
         {
             // end of element
-            sendToken(TokenTypes::ElementContent, false, 0, -1);
+            sendToken(TokenTypes::ElementContent, 0, -1);
             m_state = LexerStates::ReadingElementEnd;
         }
         else if (isElemNameFirstChar(ch))
@@ -267,7 +283,7 @@ void Lexer::readElement(unsigned char ch)
                     break;
                 }
             }
-            sendToken(TokenTypes::ElementName);
+            sendToken(TokenTypes::ElementName, 0, 0);
         }
     }
     else if (m_state == LexerStates::ReadingElement_WS)
@@ -346,7 +362,7 @@ void Lexer::readElementEnd(unsigned char ch)
         {
             if (ch == '>') {
                 m_state = LexerStates::ReadingContent;
-                sendToken(TokenTypes::ElementEnd);
+                sendToken(TokenTypes::ElementEnd, 0, 0);
             }
             else {
                 throw LexerError("Invalid element character");

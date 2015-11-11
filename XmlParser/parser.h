@@ -21,7 +21,7 @@ class Token
     std::string* m_content;
     TokenTypes m_type;
 public:
-    Token(std::string* content, TokenTypes type);
+    Token(const std::string& content, TokenTypes type);
 
     ~Token();
 

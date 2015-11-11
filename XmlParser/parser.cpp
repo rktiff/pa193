@@ -30,7 +30,7 @@ void Parser::nextToken(Token* token)
             if (top->getType() == TokenTypes::ElementContent) {
                 // reduce top of stack (concatenate contents)
                 std::string newContent = *top->getContent() + *token->getContent();
-                Token newToken(&newContent, TokenTypes::ElementContent);
+                Token newToken(newContent, TokenTypes::ElementContent);
 
                 m_stack.pop();
                 m_stack.push(&newToken);
@@ -66,9 +66,9 @@ void Parser::nextToken(Token* token)
 
             if (elem->getType() == TokenTypes::ElementName)
             {
-                if (*elem->getContent() == *token->getContent())
+                if (elem->getContent()->compare(*token->getContent()) == 0)
                 {
-                    m_handler->elementEnd(*elem->getContent(), content != NULL ? *content->getContent() : NULL);
+                    m_handler->elementEnd(*elem->getContent(), content != NULL ? *content->getContent() : "");
                 }
                 else
                 {

@@ -6,8 +6,8 @@ using namespace std;
 
 ShopItem::ShopItem()
     :m_id(NULL), m_prodName(NULL),m_product(NULL),m_desc(NULL), m_urls(new Urls()),
-     m_price(0), m_itemType(NULL),m_manufact(NULL),
-     m_catText(NULL), m_ean(0), m_isbn(0), m_heuCpc(0), m_groupId(NULL), m_dues(0)
+     m_price(0), m_itemType(NULL),m_manufact(NULL), m_catText(NULL), m_ean(0),
+     m_isbn(0), m_heuCpc(0), m_delivery_date(NULL), m_groupId(NULL), m_dues(0)
 {
 }
 
@@ -25,6 +25,10 @@ ShopItem::~ShopItem(){
     delete m_catText;
 
     for(list<Delivery*>::const_iterator iterator = m_delivery.begin(); iterator!=m_delivery.end(); ++iterator){
+        delete *iterator;
+    }
+
+    for(list<Param*>::const_iterator iterator = m_param.begin(); iterator!=m_param.end(); ++iterator){
         delete *iterator;
     }
 
@@ -70,7 +74,7 @@ void ShopItem::validateId(const std::string & str) const{
         throw logic_error("item id too long");
 
     for(unsigned int i=0;i<str.length();i++){//validne znaky [a-z][A-Z][0-9] - _
-        if( !isalnum(str.at(i)) && str.at(i)!=u'-' && str.at(i)!=u'_')
+        if( !isalnum(str.at(i)) && str.at(i)!='-' && str.at(i)!='_')
             throw logic_error("invalid character in id");
     }
 }
@@ -189,9 +193,21 @@ void ShopItem::setDues(const double due){
     m_dues=due;
 }
 
+void ShopItem::setDeliveryDate(const std::string& deliveryDate)
+{
+    // TODO: validate
+
+    m_delivery_date = new std::string(deliveryDate);
+}
+
 void ShopItem::addDelivery(Delivery* delivery){
     // mozno takto
     m_delivery.push_back(delivery);
+}
+
+void ShopItem::addParam(Param *param)
+{
+    m_param.push_back(param);
 }
 
 void ShopItem::setUrl(const string& url){

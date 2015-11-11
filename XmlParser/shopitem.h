@@ -7,8 +7,10 @@
 
 #include "urls.h"
 #include "delivery.h"
+#include "param.h"
 
-class ShopItem{
+
+class ShopItem {
     std::string* m_id; //musi byt unikatne, max 36 znakov [a-z][A-Z][0-9] - _
     std::string* m_prodName;//musi byt v product, max 255 znakov
     std::string* m_product; // max 255 znakov
@@ -21,15 +23,13 @@ class ShopItem{
     std::string* m_manufact;//musi byt v product name
     std::string* m_catText;
 
-    // TODO: Params list is missing
-
     unsigned long long m_ean; //povinny pre kinhy
     unsigned long long m_isbn;//isbn10, isbn13
     double m_heuCpc; // max 100, 2 desatinne miesta
 
-    // TODO: std::string* m_delivery_date;
-
+    std::string* m_delivery_date;
     std::list<Delivery*> m_delivery;
+    std::list<Param*> m_param;
 
     std::string* m_groupId;//max 36 znakov [a-z][A-Z][0-9] - _
     std::list<std::string> m_accessory; //obsahuje id inych poloziek
@@ -42,8 +42,6 @@ class ShopItem{
 public:
 
     ShopItem();
-
-    //ShopItem(const ShopItem & other);
 
     ~ShopItem();
 
@@ -75,7 +73,11 @@ public:
 
     void setDues(const double due);
 
+    void setDeliveryDate(const std::string& deliveryDate);
+
     void addDelivery(Delivery* delivery);
+
+    void addParam(Param* param);
 
     void setUrl(const std::string& url);
 
