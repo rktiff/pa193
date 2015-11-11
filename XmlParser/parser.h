@@ -3,6 +3,7 @@
 
 #include <string>
 #include <stack>
+#include <stdexcept>
 
 using namespace std;
 
@@ -17,14 +18,14 @@ enum class TokenTypes
 
 class Token
 {
-    const std::string& m_content;
+    std::string* m_content;
     TokenTypes m_type;
 public:
-    Token(const std::string& content, TokenTypes type);
+    Token(std::string* content, TokenTypes type);
 
     ~Token();
 
-    const std::string& getContent();
+    std::string* getContent();
 
     TokenTypes getType();
 };
@@ -32,13 +33,9 @@ public:
 class ParsingHandler
 {
 public:
-    virtual void elementStart(std::string* elementName);
+    virtual void elementStart(const std::string& elementName) = 0;
 
-    virtual void elementTextContent(std::string* elementName, std::string* content);
-
-    virtual void elementEnd(std::string* elementName);
-
-    virtual void attribute(std::string* attributeName, std::string* attributeValue);
+    virtual void elementEnd(const std::string& elementName, const std::string& content) = 0;
 };
 
 class Parser
@@ -46,13 +43,24 @@ class Parser
     std::stack<Token*> m_stack;
     ParsingHandler* m_handler;
 public:
-    Parser();
+    Parser(ParsingHandler* handler);
 
     ~Parser();
 
     void nextToken(Token* token);
 
     void endParse();
+};
+
+
+// ------------------- //
+//  ParserError class  //
+// ------------------- //
+
+class ParserError : public std::domain_error
+{
+public:
+    using std::domain_error::domain_error;
 };
 
 #endif // PARSER_H

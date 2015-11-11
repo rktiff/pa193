@@ -4,6 +4,7 @@
 #include <iostream>
 #include <stdexcept>
 
+// TODO: Constrctor withou params + set methods with validations
 
 class Delivery{
     std::string* m_id;

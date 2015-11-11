@@ -20,9 +20,14 @@ class ShopItem{
     std::string* m_itemType;
     std::string* m_manufact;//musi byt v product name
     std::string* m_catText;
+
+    // TODO: Params list is missing
+
     unsigned long long m_ean = 0; //povinny pre kinhy
     unsigned long long m_isbn = 0;//isbn10, isbn13
     double m_heuCpc; // max 100, 2 desatinne miesta
+
+    // TODO: std::string* m_delivery_date;
 
     std::list<Delivery*> m_delivery;
 
@@ -70,7 +75,7 @@ public:
 
     void setDues(const double due);
 
-    void addDelivery(const Delivery* delivery);
+    void addDelivery(Delivery* delivery);
 
     void setUrl(const std::string& url);
 

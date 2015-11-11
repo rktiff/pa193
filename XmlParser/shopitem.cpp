@@ -82,7 +82,8 @@ void ShopItem::setId(const string& id){
 }
 
 void ShopItem::setProdName(const string & name){
-    validateProduct(name);
+    // TODO: validate when shopitem instance is completly set
+    // validateProduct(name);
 
     m_prodName=new string(name);
 }
@@ -117,7 +118,8 @@ void ShopItem::setItemType(const std::string& type){
 }
 
 void ShopItem::setManufacturer(const string& manuf){
-    validateProduct(manuf);
+    // TODO: Use correct validation
+    // validateProduct(manuf);
 
     m_manufact = new string(manuf);
 }
@@ -126,10 +128,11 @@ void ShopItem::setCatText(const std::string& category){
     if(category.length()>2000)
         throw logic_error("category too long");
 
-    for(unsigned int i=0;i<category.length();i++){//validne znaky [a-z][A-Z][0-9] - _
-        if( !isalnum(category[i]) && category[i]!=u'-' && category[i]!=u'_')
-            throw logic_error("invalid character in category");
-    }
+    // TODO accept UTF-8 multibyte characters
+//    for(unsigned int i=0;i<category.length();i++){//validne znaky [a-z][A-Z][0-9]\s - _ |
+//        if( !isalnum(category[i]) && !isspace(category[i]) && category[i] != u'|' && category[i]!=u'-' && category[i]!=u'_')
+//            throw logic_error("invalid character in category");
+//    }
 
     m_catText = new string(category);
 }
@@ -186,8 +189,9 @@ void ShopItem::setDues(const double due){
     m_dues=due;
 }
 
-void ShopItem::addDelivery(const Delivery* delivery){
-    //??? neviem ako
+void ShopItem::addDelivery(Delivery* delivery){
+    // mozno takto
+    m_delivery.push_back(delivery);
 }
 
 void ShopItem::setUrl(const string& url){

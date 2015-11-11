@@ -1,19 +1,23 @@
 #include "lexer.h"
 
 #include <iostream>
+#include <algorithm>
 
 
 using namespace std;
 
 // ------------------------ //
-//  Token class definition
+//  Token class definition  //
 // ------------------------ //
 
-Token::Token(const std::string& content, TokenTypes type) : m_content(content), m_type(type) {}
+Token::Token(std::string* content, TokenTypes type) : m_content(content), m_type(type) {}
 
-Token::~Token() {}
+Token::~Token()
+{
+    free(m_content);
+}
 
-const std::string& Token::getContent()
+std::string* Token::getContent()
 {
     return m_content;
 }
@@ -24,10 +28,10 @@ TokenTypes Token::getType()
 }
 
 // ------------------------ //
-//  Lexer class definition
+//  Lexer class definition  //
 // ------------------------ //
 
-Lexer::Lexer(const Parser& parser) : m_parser(parser) {}
+Lexer::Lexer(Parser* parser) : m_parser(parser) {}
 
 Lexer::~Lexer() {}
 
@@ -37,18 +41,21 @@ void Lexer::tokanize(const std::string& line)
     m_latest_token_pos = 0;
     for (m_position=0; m_position < line.length(); m_position++)
     {
-        // cout << line.at(m_position);
         readChar(line.at(m_position));
     }
+    // TODO: process multiline content
 }
 
-void Lexer::sendToken(TokenTypes type, size_t start_offset, size_t length_offset)
+void Lexer::sendToken(TokenTypes type, bool case_sensitive = true, size_t start_offset = 0, size_t length_offset = 0)
 {
-    std::string content = m_current_line.substr(m_latest_token_pos + start_offset, m_position - m_latest_token_pos + length_offset);
+    std::string* content = new  std::string(m_current_line.substr(m_latest_token_pos + start_offset, m_position - m_latest_token_pos + length_offset));
+    if (case_sensitive)
+    {
+        std::transform(content->begin(), content->end(), content->begin(), ::toupper);
+    }
 
-    Token token(content, type);
-
-    cout << "TOKEN " << (int) type << " with content " << content << endl;
+    Token *token = new Token(content, type);
+    m_parser->nextToken(token);
 }
 
 void Lexer::readChar(unsigned char ch)
@@ -230,7 +237,7 @@ void Lexer::readElement(unsigned char ch)
         if (ch == '/')
         {
             // end of element
-            sendToken(TokenTypes::ElementContent, 0, -1);
+            sendToken(TokenTypes::ElementContent, false, 0, -1);
             m_state = LexerStates::ReadingElementEnd;
         }
         else if (isElemNameFirstChar(ch))

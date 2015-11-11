@@ -47,7 +47,7 @@ enum class LexerStates {
 class Lexer
 {
     // reference to parse
-    const Parser& m_parser;
+    Parser* m_parser;
 
     // reference to currently tokanized line
     std::string m_current_line;
@@ -80,14 +80,18 @@ class Lexer
     void readElementEnd(unsigned char ch);
 
     // sends token to the parser
-    void sendToken(TokenTypes type, size_t start_offset = 0, size_t length_offset = 0);
+    void sendToken(TokenTypes type, bool case_sensitive, size_t start_offset, size_t length_offset);
 public:
-    Lexer(const Parser& parser);
+    Lexer(Parser* parser);
 
     ~Lexer();
 
     void tokanize(const std::string& line);
 };
+
+// ------------------ //
+//  LexerError class  //
+// ------------------ //
 
 class LexerError : public std::domain_error
 {

@@ -22,9 +22,10 @@ std::string* Urls::getUrl() const{
 bool Urls::isValid(const string &url) const{
     if(url.length()>255)
         return false;
-    //medzera? diakritika?
 
-    return false;
+    // TODO: implement regexp ^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$
+
+    return true;
 }
 
 void Urls::setUrl(const string& url){
