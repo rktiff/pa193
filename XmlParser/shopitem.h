@@ -104,6 +104,8 @@ public:
     std::string* getManufact() const;
 
     std::string* getCatText() const;
+
+    unsigned long long getEAN() const;
 };
 
 
