@@ -1,0 +1,10 @@
+documentation:
+http://sluzby.heureka.cz/napoveda/xml-feed/
+
+info:
+- url validation missing
+- element <PRODUCTNO> skipped - present in example in documentation but is not mention in elements description
+- priceCOD must be >= price - this validation missing
+- element <PRODUCTNAME> and <CATEGORYTEXT> - semantics validation missing
+- <PRODUCTNAME> not validated in some TAGS
+- invalid price
