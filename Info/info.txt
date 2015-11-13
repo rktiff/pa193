@@ -7,4 +7,3 @@ info:
 - priceCOD must be >= price - this validation missing
 - element <PRODUCTNAME> and <CATEGORYTEXT> - semantics validation missing
 - <PRODUCTNAME> not validated in some TAGS
-- invalid price
