@@ -118,12 +118,11 @@ void ShopItem::setItemType(const std::string& type){
         throw logic_error("item type too long");
 
     m_itemType = new string(type);
-
 }
 
 void ShopItem::setManufacturer(const string& manuf){
     // TODO: Use correct validation
-    // validateProduct(manuf);
+    //validateProduct(manuf);
 
     m_manufact = new string(manuf);
 }

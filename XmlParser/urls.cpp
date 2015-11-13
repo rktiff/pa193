@@ -53,6 +53,6 @@ void Urls::setVidUrl(const string& url){
     if(!isValid(url))
         throw logic_error("invalid url");
 
-    //povolene iba youtube
+    //povolene iba youtube - osetrit
     m_vidurl = new string(url);
 }

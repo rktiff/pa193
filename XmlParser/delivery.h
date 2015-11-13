@@ -13,6 +13,9 @@ class Delivery{
 
     static const std::string ids[];//podla dokumentacie 22 roznych dopravcov
     static const unsigned int id_count = 22;//pocet validnych id
+    void validatePrice(double price) const;
+    void validateId(const std::string& id) const;
+
 public:
     Delivery();
 
