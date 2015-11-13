@@ -77,8 +77,11 @@ int main(int argc, char* argv[])
             std::cout << *(item->getProdName())
                       << " (ID:" << *(item->getId()) << ")" << std::endl;
 
-            std::cout << "  Description: " << *(item->getDesc()) << std::endl;
+            std::cout << "  Category: " << *(item->getCatText()) << std::endl;
+            std::cout << "  Product: " << *(item->getProduct()) << std::endl;
             std::cout << "  EAN: " << item->getEAN() << std::endl;
+            std::cout << "  Price: " << item->getPrice() << std::endl;
+            std::cout << "  Description: " << *(item->getDesc()) << std::endl;
             std::cout << std::endl;
         }
 
